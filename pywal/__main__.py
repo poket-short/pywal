@@ -24,6 +24,7 @@ from . import sequences
 from . import theme
 from . import util
 from . import wallpaper
+from . import kde
 
 
 def get_args():
@@ -107,6 +108,9 @@ def get_args():
     arg.add_argument("-e", action="store_true",
                      help="Skip reloading gtk/xrdb/i3/sway/polybar")
 
+    arg.add_argument("-kde", action="store_true",
+                     help="KDE support")
+
     return arg
 
 
@@ -172,6 +176,10 @@ def parse_args(parser):
                                recursive=args.recursive)
         colors_plain = colors.get(image_file, args.l, args.backend,
                                   sat=args.saturate)
+
+    if args.kde:
+        kde.setwallpaper(image_file)
+        kde.setcolorcheme(colors_plain)
 
     if args.theme:
         colors_plain = theme.file(args.theme, args.l)
